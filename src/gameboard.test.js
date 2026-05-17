@@ -19,7 +19,6 @@ test('Gameboard Initial Filling', () => {
 
 test('Placement of Ship', () => {
   testGameboard.placeShip(0, 0, 'horizontal', 3);
-  console.log(testGameboard.board);
   expect(testGameboard.board[0][0]).not.toBe(null);
   expect(testGameboard.board[0][1]).not.toBe(null);
   expect(testGameboard.board[0][2]).not.toBe(null);
@@ -66,15 +65,31 @@ describe('Placement of Ship Throw', () => {
 describe('Receive Attack', () => {
   test('Attack missing ship', () => {
     testGameboard.receiveAttack(1, 0);
-    console.log(testGameboard.board);
     expect(testGameboard.board[0][1].firedUpon).toBe(true);
   })
 
   test('Attack hitting ship', () => {
     testGameboard.placeShip(0, 0, 'horizontal', 3);
     testGameboard.receiveAttack(1, 0);
-    console.log(testGameboard.board);
     expect(testGameboard.board[0][1].firedUpon).toBe(true);
   })
+})
 
+describe('Check all ship sunk', () => {
+  test('False check', () => {
+    testGameboard.placeShip(0, 0, 'horizontal', 3);
+    expect(testGameboard.checkAllShipSunk()).toBe(false);
+  })
+
+  test('True check for empty array', () => {
+    expect(testGameboard.checkAllShipSunk()).toBe(true);
+  })
+
+  test('True check for destroyed ship', () => {
+    testGameboard.placeShip(0, 0, 'horizontal', 3);
+    testGameboard.receiveAttack(0, 0);
+    testGameboard.receiveAttack(1, 0);
+    testGameboard.receiveAttack(2, 0);
+    expect(testGameboard.checkAllShipSunk()).toBe(true);
+  })
 })

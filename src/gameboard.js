@@ -9,6 +9,7 @@ import { Ship } from './ship.js';
 export class Gameboard {
   constructor() {
     this.board = this.generateNewBoard();
+    this.ships = [];
   }
 
   // Basic Battleship Boardsize is 10x10
@@ -25,11 +26,17 @@ export class Gameboard {
 
   placeShip(xCoordinate, yCoordinate, orientation, shipSize) {
     this.#validatePlacement(xCoordinate, yCoordinate, orientation, shipSize);
+
+    const newShip = new Ship(shipSize);
+    this.ships.push(newShip);
+
     for (let i = 0; i < shipSize; i++) {
       if (orientation === 'vertical') {
-        this.board[yCoordinate + i][xCoordinate] = { firedUpon: false, ship: new Ship(shipSize) };
+        // this.board[yCoordinate + i][xCoordinate] = { firedUpon: false, ship: new Ship(shipSize) };
+        this.board[yCoordinate + i][xCoordinate] = { firedUpon: false, ship: newShip };
       } else {
-        this.board[yCoordinate][xCoordinate + i] = { firedUpon: false, ship: new Ship(shipSize) };
+        // this.board[yCoordinate][xCoordinate + i] = { firedUpon: false, ship: new Ship(shipSize) };
+        this.board[yCoordinate][xCoordinate + i] = { firedUpon: false, ship: newShip };
       }
     }
   }
@@ -56,5 +63,10 @@ export class Gameboard {
     } else {
       this.board[yCoordinate][xCoordinate] = { firedUpon: true, ship: null };
     }
+  }
+
+  checkAllShipSunk() {
+    // return this.board.flat().filter((element) => element !== null);
+    return this.ships.every((ship) => ship.isSunk());
   }
 }
