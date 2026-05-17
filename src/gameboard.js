@@ -48,4 +48,13 @@ export class Gameboard {
       }
     } 
   }
+
+  receiveAttack(xCoordinate, yCoordinate) {
+    if (this.board[yCoordinate][xCoordinate] !== null) {
+      this.board[yCoordinate][xCoordinate].firedUpon = true;
+      this.board[yCoordinate][xCoordinate].ship.hit();
+    } else {
+      this.board[yCoordinate][xCoordinate] = { firedUpon: true, ship: null };
+    }
+  }
 }

@@ -63,3 +63,18 @@ describe('Placement of Ship Throw', () => {
   })
 })
 
+describe('Receive Attack', () => {
+  test('Attack missing ship', () => {
+    testGameboard.receiveAttack(1, 0);
+    console.log(testGameboard.board);
+    expect(testGameboard.board[0][1].firedUpon).toBe(true);
+  })
+
+  test('Attack hitting ship', () => {
+    testGameboard.placeShip(0, 0, 'horizontal', 3);
+    testGameboard.receiveAttack(1, 0);
+    console.log(testGameboard.board);
+    expect(testGameboard.board[0][1].firedUpon).toBe(true);
+  })
+
+})
