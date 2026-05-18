@@ -28,25 +28,25 @@ describe('Placement of Ship Throw', () => {
   test('xCoordinate too small', () => {
     expect(() => {
       testGameboard.placeShip(-1, 0, 'horizontal', 3);
-    }).toThrow('Invalid coordinates');
+    }).toThrow('Coordinates out of bounds');
   })
 
   test('xCoordinate too big', () => {
     expect(() => {
       testGameboard.placeShip(10, 0, 'horizontal', 3);
-    }).toThrow('Invalid coordinates');
+    }).toThrow('Coordinates out of bounds');
   })
 
   test('yCoordinate too small', () => {
     expect(() => {
       testGameboard.placeShip(0, -1, 'horizontal', 3);
-    }).toThrow('Invalid coordinates');
+    }).toThrow('Coordinates out of bounds');
   })
 
   test('yCoordinate too big', () => {
     expect(() => {
       testGameboard.placeShip(0, 10, 'horizontal', 3);
-    }).toThrow('Invalid coordinates');
+    }).toThrow('Coordinates out of bounds');
   })
 
   test('xCoordinate out of bounds', () => {
@@ -59,6 +59,13 @@ describe('Placement of Ship Throw', () => {
     expect(() => {
       testGameboard.placeShip(0, 9, 'vertical', 3);
     }).toThrow('Invalid Y-Coordinate');
+  })
+
+  test('Ship already placed at these coordinates', () => {
+    testGameboard.placeShip(0, 0, 'horizontal', 3);
+    expect(() => {
+      testGameboard.placeShip(0, 0, 'horizontal', 3);
+    }).toThrow('A ship is already placed at these coordinates');
   })
 })
 

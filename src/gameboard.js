@@ -37,8 +37,14 @@ export class Gameboard {
 
   #validatePlacement(xCoordinate, yCoordinate, orientation, shipSize) {
     if ((xCoordinate < 0 || xCoordinate > Gameboard.BOARDSIZE - 1) || (yCoordinate < 0 || yCoordinate > Gameboard.BOARDSIZE - 1)) {
-      throw new Error('Invalid coordinates');
+      throw new Error('Coordinates out of bounds');
     }
+
+    // Note: Since no ships will be placed after shots were fired, checking for null is sufficient.
+    if (this.board[yCoordinate][xCoordinate] !== null) {
+      throw new Error('A ship is already placed at these coordinates');
+    }
+
     if (orientation === 'vertical') {
       if (yCoordinate + shipSize > Gameboard.BOARDSIZE) {
         throw new Error('Invalid Y-Coordinate');
