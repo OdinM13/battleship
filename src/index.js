@@ -22,12 +22,34 @@ export class Game {
   static DESTROYERSIZE = 3;
   static SUBMARINESIZE = 3;
   static PATROLBOATSIZE = 2;
+  static ORIENTATION = ['horizontal', 'vertical'];
 
   populateBoard(player) {
-    player.gameBoard.placeShip(0, 0, 'horizontal', Game.CARRIERSIZE);
-    player.gameBoard.placeShip(0, 1, 'vertical', Game.BATTLESHIPSIZE);
-    player.gameBoard.placeShip(1, 1, 'vertical', Game.DESTROYERSIZE);
-    player.gameBoard.placeShip(2, 1, 'vertical', Game.SUBMARINESIZE);
-    player.gameBoard.placeShip(3, 1, 'vertical', Game.PATROLBOATSIZE);
+    this.#placeRandomPosition(player, Game.CARRIERSIZE);
+    this.#placeRandomPosition(player, Game.BATTLESHIPSIZE);
+    this.#placeRandomPosition(player, Game.DESTROYERSIZE);
+    this.#placeRandomPosition(player, Game.SUBMARINESIZE);
+    this.#placeRandomPosition(player, Game.PATROLBOATSIZE);
+  }
+
+  #placeRandomPosition(player, shipType) {
+    let isPlaced = false;
+
+    while (!isPlaced) {
+      try {
+        player.gameBoard.placeShip(this.#getRandomInt(10), this.#getRandomInt(10), Game.ORIENTATION[this.#getRandomOrientation()], shipType);
+        isPlaced = true;
+      } catch {
+        continue;
+      }
+    }
+  }
+
+  #getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  #getRandomOrientation() {
+    return Math.floor(Math.random() * Game.ORIENTATION.length);
   }
 }
